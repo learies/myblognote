@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 
-from posts.models import Post
+from posts.models import Post, User
 
 
 def index(request):
@@ -18,3 +18,12 @@ def post_detail(request, post_id):
         'post': post,
     }
     return render(request, 'posts/post_detail.html', context)
+
+
+def profile(request, username):
+    author = get_object_or_404(User, username=username)
+    posts = Post.objects.filter(author=author)
+    context = {
+        'posts': posts,
+    }
+    return render(request, 'posts/profile.html', context)

@@ -1,9 +1,7 @@
 {% for post in posts %}
 	<article>
-		<p>Автор: 
-			<a href="{% url 'posts:profile' post.author %}">
-				{{ post.author.get_full_name }}
-			</a>
+		<p>
+			Автор: {{ post.author.get_full_name }}
 		</p>
 		<p>
 			Дата публикации: {{ post.pub_date|date:"d E Y" }}
