@@ -52,17 +52,17 @@ class PostViewsTests(TestCase):
                 response = self.guest_client.get(url)
                 self.assertTemplateUsed(response, template)
 
-    def test_post_appear_in_page_index(self):
-        """Тест отображения поста на главной странице"""
+    def test_index_page(self):
+        """Главная страница"""
         response = self.guest_client.get(INDEX_URL)
         self.assertContains(response, self.post)
 
-    def test_post_detail_appear_in_page_index(self):
-        """Тест отображения поста на главной странице"""
+    def test_post_detail_page(self):
+        """Страница с постом"""
         response = self.guest_client.get(self.POST_DETAIL_URL)
         self.assertContains(response, self.post)
 
     def test_profile_page(self):
-        """Страница профиля пользователя"""
+        """Страница профиля автора"""
         response = self.guest_client.get(self.PROFILE_URL)
         self.assertContains(response, self.post)
