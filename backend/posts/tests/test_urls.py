@@ -33,17 +33,17 @@ class StaticURLTests(TestCase):
         self.guest_client = Client()
 
     def test_index_status_page(self):
-        """Доступность index страницы"""
+        """Доступность главной страницы"""
         response = self.guest_client.get(INDEX_URL)
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_post_detail_status_page(self):
-        """Доступность post_deatil страницы"""
+        """Доступность страницы с постом"""
         response = self.guest_client.get(self.POST_DETAIL_URL)
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_profile_status_page(self):
-        """Доступность profile страницы"""
+        """Доступность страницы профиля автора"""
         response = self.guest_client.get(self.PROFILE_URL)
         self.assertEqual(response.status_code, HTTPStatus.OK)
     
