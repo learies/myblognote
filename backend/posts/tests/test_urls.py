@@ -3,10 +3,11 @@ from http import HTTPStatus
 from django.test import TestCase, Client
 
 from posts.models import User, Post
-
-AUTHOR = 'test_author'
-POST_TITLE = 'Тестовый заголовок'
-POST_TEXT = 'Тестовый техст поста'
+from posts.tests.data_for_test import (
+    AUTHOR,
+    POST_TITLE,
+    POST_TEXT,
+)
 
 INDEX_URL = '/'
 INDEX_TEMPLATE = 'posts/index.html'

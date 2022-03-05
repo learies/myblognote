@@ -3,7 +3,7 @@ from django.test import TestCase
 from posts.models import User, Post
 from posts.tests.data_for_test import (
     AUTHOR,
-    TITLE_TEXT,
+    POST_TITLE,
     POST_TEXT,
 )
 
@@ -14,7 +14,7 @@ class PostModelTest(TestCase):
         super().setUpClass()
         cls.user = User.objects.create_user(username=AUTHOR)
         cls.post = Post.objects.create(
-            title=TITLE_TEXT,
+            title=POST_TITLE,
             text=POST_TEXT,
             author=cls.user,
         )

@@ -1,3 +1,3 @@
-AUTHOR = 'test_user'
-TITLE_TEXT = 'Тестовый заголовок'
+AUTHOR = 'test_auth'
+POST_TITLE = 'Тестовый заголовок'
 POST_TEXT = 'Тестовый текст поста'
