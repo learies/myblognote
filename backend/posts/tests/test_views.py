@@ -14,6 +14,9 @@ INDEX_TEMPLATE = 'posts/index.html'
 POST_DETAIL = 'posts:post_detail'
 POST_DETAIL_TEMPLATE = 'posts/post_detail.html'
 
+PROFALE = 'posts:profile'
+PROFILE_TEMPLATE = 'posts/profile.html'
+
 
 class PostViewsTests(TestCase):
     @classmethod
@@ -29,6 +32,10 @@ class PostViewsTests(TestCase):
             POST_DETAIL,
             kwargs={'post_id': cls.post.id},
         )
+        cls.PROFILE_URL = reverse(
+            PROFALE,
+            kwargs={'username': cls.user},
+        )
 
     def setUp(self):
         self.guest_client = Client()
@@ -38,6 +45,7 @@ class PostViewsTests(TestCase):
         templates_pages_names = {
             INDEX_URL: INDEX_TEMPLATE,
             self.POST_DETAIL_URL: POST_DETAIL_TEMPLATE,
+            self.PROFILE_URL: PROFILE_TEMPLATE,
         }
         for url, template in templates_pages_names.items():
             with self.subTest(url=url):
@@ -52,4 +60,9 @@ class PostViewsTests(TestCase):
     def test_post_detail_appear_in_page_index(self):
         """Тест отображения поста на главной странице"""
         response = self.guest_client.get(self.POST_DETAIL_URL)
+        self.assertContains(response, self.post)
+
+    def test_profile_page(self):
+        """Страница профиля пользователя"""
+        response = self.guest_client.get(self.PROFILE_URL)
         self.assertContains(response, self.post)
