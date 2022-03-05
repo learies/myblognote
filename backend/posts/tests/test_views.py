@@ -6,16 +6,15 @@ from posts.tests.data_for_test import (
     AUTHOR,
     POST_TITLE,
     POST_TEXT,
+    INDEX_TEMPLATE,
+    POST_DETAIL_TEMPLATE,
+    PROFILE_TEMPLATE,
 )
 
 INDEX_URL = reverse('posts:index')
-INDEX_TEMPLATE = 'posts/index.html'
 
 POST_DETAIL = 'posts:post_detail'
-POST_DETAIL_TEMPLATE = 'posts/post_detail.html'
-
 PROFALE = 'posts:profile'
-PROFILE_TEMPLATE = 'posts/profile.html'
 
 
 class PostViewsTests(TestCase):

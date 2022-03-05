@@ -7,13 +7,12 @@ from posts.tests.data_for_test import (
     AUTHOR,
     POST_TITLE,
     POST_TEXT,
+    INDEX_TEMPLATE,
+    POST_DETAIL_TEMPLATE,
+    PROFILE_TEMPLATE,
 )
 
 INDEX_URL = '/'
-INDEX_TEMPLATE = 'posts/index.html'
-
-POST_DETAIL_TEMPLATE = 'posts/post_detail.html'
-PROFILE_TEMPLATE = 'posts/profile.html'
 
 
 class StaticURLTests(TestCase):
@@ -46,7 +45,7 @@ class StaticURLTests(TestCase):
         """Доступность страницы профиля автора"""
         response = self.guest_client.get(self.PROFILE_URL)
         self.assertEqual(response.status_code, HTTPStatus.OK)
-    
+
     def test_urls_uses_correct_template(self):
         """URL-адрес соотвествует шаблону страницы"""
         templates_url_names = {
