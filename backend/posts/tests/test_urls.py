@@ -39,6 +39,7 @@ class StaticURLTests(TestCase):
         self.guest_client = Client()
 
     def test_status_page(self):
+        """Проверка статус код страницы"""
         client_url_status = {
             INDEX_URL: HTTPStatus.OK,
             self.POST_DETAIL_URL: HTTPStatus.OK,
