@@ -20,7 +20,7 @@ class Post(models.Model):
         User,
         on_delete=models.CASCADE,
         related_name='posts',
-        verbose_name='Автор'
+        verbose_name='Автор',
     )
 
     class Meta:
@@ -29,6 +29,28 @@ class Post(models.Model):
         ordering = (
             '-pub_date',
         )
+
+    def __str__(self):
+        return self.title
+
+
+class Goup(models.Model):
+    title = models.CharField(
+        'Название',
+        max_length=200,
+    )
+    slug = models.SlugField(
+        'Слаг',
+        max_length=200,
+        unique=True,
+    )
+    description = models.TextField(
+        'Описание',
+    )
+
+    class Meta:
+        verbose_name = 'Группа'
+        verbose_name_plural = 'Группы'
 
     def __str__(self):
         return self.title
