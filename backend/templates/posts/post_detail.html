@@ -8,7 +8,7 @@
 			{{ post.title }}
 		</h2>
 		<p>
-			Автор: 
+			Автор:
 			<a href="{% url 'posts:profile' post.author %}">
 				{{ post.author.get_full_name }}
 			</a>
@@ -17,8 +17,13 @@
 			Дата: {{ post.pub_date|date:"d E Y" }}
 		</p>
 		<p>
-    	{{ post.text }}
-  	</p>
-		<br>
+			{{ post.text }}
+		</p>
+		{% if post.group %}
+			<a href="{% url 'posts:group_posts' post.group.slug %}">
+				{{ post.group }}
+			</a>
+		{% endif %}
 	</article>
+	<br>
 {% endblock %}
