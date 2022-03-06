@@ -1,15 +1,21 @@
-<article>
-	<p>
-		Автор: {{ post.author.get_full_name }}
-	</p>
-	<p>
-		Дата публикации: {{ post.pub_date|date:"d E Y" }}
-	</p>
-	<h2>
-		{{ post.title }}
-	</h2>
-	<p>
-    {{ post.text }}
-  </p>
-	<br>
-</article>
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+	<article>
+		<p>
+			Автор: {{ post.author.get_full_name }}
+		</p>
+		<p>
+			Дата публикации: {{ post.pub_date|date:"d E Y" }}
+		</p>
+		<h2>
+			{{ post.title }}
+		</h2>
+		<p>
+    	{{ post.text }}
+  	</p>
+		<br>
+	</article>
+{% endblock %}
