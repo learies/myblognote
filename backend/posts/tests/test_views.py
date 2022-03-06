@@ -64,22 +64,15 @@ class PostViewsTests(TestCase):
                 response = self.guest_client.get(url)
                 self.assertTemplateUsed(response, template)
 
-    def test_index_page(self):
-        """Главная страница"""
-        response = self.guest_client.get(INDEX_URL)
-        self.assertContains(response, self.post)
-
-    def test_post_detail_page(self):
-        """Страница с постом"""
-        response = self.guest_client.get(self.POST_DETAIL_URL)
-        self.assertContains(response, self.post)
-
-    def test_profile_page(self):
-        """Страница профиля автора"""
-        response = self.guest_client.get(self.PROFILE_URL)
-        self.assertContains(response, self.post)
-
-    def test_group_posts_page(self):
-        """Страница группы с постами"""
-        response = self.guest_client.get(self.GROUP_POSTS_URL)
-        self.assertContains(response, self.post)
+    def test_post_view_on_page(self):
+        """"Вывод поста на струницы"""
+        pages = (
+            INDEX_URL,
+            self.POST_DETAIL_URL,
+            self.PROFILE_URL,
+            self.GROUP_POSTS_URL,
+        )
+        for page in pages:
+            with self.subTest(page=page):
+                response = self.guest_client.get(page)
+                self.assertContains(response, self.post)
