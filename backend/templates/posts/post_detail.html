@@ -5,7 +5,10 @@
 {% block content %}
 	<article>
 		<p>
-			Автор: {{ post.author.get_full_name }}
+			Автор: 
+			<a href="{% url 'posts:profile' post.author %}">
+				{{ post.author.get_full_name }}
+			</a>
 		</p>
 		<p>
 			Дата публикации: {{ post.pub_date|date:"d E Y" }}
