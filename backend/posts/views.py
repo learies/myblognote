@@ -37,4 +37,4 @@ def group_posts(request, slug):
         'posts': posts,
         'group': group,
     }
-    return render(request, 'posts/group_list.html', context)
+    return render(request, 'posts/group_posts.html', context)
