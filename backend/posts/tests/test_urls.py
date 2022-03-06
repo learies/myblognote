@@ -38,25 +38,17 @@ class StaticURLTests(TestCase):
     def setUp(self):
         self.guest_client = Client()
 
-    def test_index_status_page(self):
-        """Доступность главной страницы"""
-        response = self.guest_client.get(INDEX_URL)
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-
-    def test_post_detail_status_page(self):
-        """Доступность страницы с постом"""
-        response = self.guest_client.get(self.POST_DETAIL_URL)
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-
-    def test_profile_status_page(self):
-        """Доступность страницы профиля автора"""
-        response = self.guest_client.get(self.PROFILE_URL)
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-
-    def test_goup_posts_status_page(self):
-        """Доступность страницы группы"""
-        response = self.guest_client.get(self.GROUP_URL)
-        self.assertEqual(response.status_code, HTTPStatus.OK)
+    def test_status_page(self):
+        client_url_status = {
+            INDEX_URL: HTTPStatus.OK,
+            self.POST_DETAIL_URL: HTTPStatus.OK,
+            self.PROFILE_URL: HTTPStatus.OK,
+            self.GROUP_URL: HTTPStatus.OK,
+        }
+        for client_url, status_code in client_url_status.items():
+            with self.subTest(client_url=client_url):
+                response = self.guest_client.get(client_url)
+                self.assertEqual(response.status_code, status_code)
 
     def test_urls_uses_correct_template(self):
         """URL-адрес соотвествует шаблону страницы"""
