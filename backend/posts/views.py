@@ -24,6 +24,7 @@ def profile(request, username):
     author = get_object_or_404(User, username=username)
     posts = Post.objects.filter(author=author)
     context = {
+        'author': author,
         'posts': posts,
     }
     return render(request, 'posts/profile.html', context)
