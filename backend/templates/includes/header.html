@@ -3,6 +3,21 @@
 		<li>
 			<a href="{% url 'posts:index' %}">Главная</a>
 		</li>
+		{% if user.is_authenticated %}
+			<li>
+				{{ user.get_full_name }}
+			</li>
+			<li>
+				<a href="{% url 'users:logout' %}">Выйти</a>
+			</li>
+		{% else %}
+			<li>
+				<a href="{% url 'users:signup' %}">Регистрация</a>
+			</li>
+			<li>
+				<a href="{% url 'users:login' %}">Войти</a>
+			</li>
+		{% endif %}
 	</ul>
 </nav>
 <hr>
