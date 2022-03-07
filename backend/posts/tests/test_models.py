@@ -5,6 +5,9 @@ from posts.tests.data_for_test import (
     AUTHOR,
     POST_TITLE,
     POST_TEXT,
+    GROUP_TITLE,
+    GROUP_SLUG,
+    DESCRIPTION,
 )
 
 
@@ -14,9 +17,9 @@ class PostModelTest(TestCase):
         super().setUpClass()
         cls.user = User.objects.create_user(username=AUTHOR)
         cls.group = Group.objects.create(
-            title='Тестовая группа',
-            slug='test_slug',
-            description='Тестовое описание',
+            title=GROUP_TITLE,
+            slug=GROUP_SLUG,
+            description=DESCRIPTION,
         )
         cls.post = Post.objects.create(
             title=POST_TITLE,
@@ -44,7 +47,7 @@ class PostModelTest(TestCase):
         field_verboses = {
             'title': 'Название',
             'slug': 'Слаг',
-            'description': 'Описание', 
+            'description': 'Описание',
         }
         for value, expected in field_verboses.items():
             with self.subTest(value=value):

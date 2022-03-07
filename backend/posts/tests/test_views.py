@@ -10,6 +10,9 @@ from posts.tests.data_for_test import (
     POST_DETAIL_TEMPLATE,
     PROFILE_TEMPLATE,
     GROUP_TEMPLATE,
+    GROUP_TITLE,
+    GROUP_SLUG,
+    DESCRIPTION,
 )
 
 INDEX_URL = reverse('posts:index')
@@ -25,9 +28,9 @@ class PostViewsTests(TestCase):
         super().setUpClass()
         cls.user = User.objects.create_user(username=AUTHOR)
         cls.group = Group.objects.create(
-            title='Тестовая группа',
-            slug='test_slug',
-            description='Тестовое описание',
+            title=GROUP_TITLE,
+            slug=GROUP_SLUG,
+            description=DESCRIPTION,
         )
         cls.post = Post.objects.create(
             title=POST_TITLE,
