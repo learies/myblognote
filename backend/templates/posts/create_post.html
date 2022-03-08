@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Новый пост{% endblock %}
+
+{% block content %}
+	<h1>Новый пост</h1>
+	<form method="POST"
+		enctype="multipart/form-data"
+		{% if action_url %}
+			action="{% url action_url %}"
+		{% endif %}
+		>
+			{% csrf_token %}
+			{{ form.as_p }}
+			<button>
+				{% if is_edit %}
+					Сохранить
+				{% else %}
+					Добавить
+				{% endif %}
+			</button>
+		</form>
+{% endblock %}

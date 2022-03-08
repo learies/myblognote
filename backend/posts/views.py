@@ -1,7 +1,8 @@
-from django.shortcuts import render
-from django.shortcuts import get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 
 from posts.models import Post, User, Group
+from posts.forms import PostForm
 
 
 def index(request):
@@ -38,3 +39,19 @@ def group_posts(request, slug):
         'group': group,
     }
     return render(request, 'posts/group_posts.html', context)
+
+
+@login_required
+def post_create(request):
+    form = form = PostForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return redirect('posts:profile', post.author)
+        return render(request, 'posts/create_post.html', {'form': form})
+    context = {
+        'form': form,
+    }
+    return render(request, 'posts/create_post.html', context)
