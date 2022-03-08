@@ -14,9 +14,11 @@ from posts.tests.data_for_test import (
     GROUP_TITLE,
     GROUP_SLUG,
     DESCRIPTION,
+    CREATE_POST_TEMPLATE,
 )
 
 INDEX_URL = '/'
+CREATE_POST_URL = '/create/'
 
 
 class StaticURLTests(TestCase):
@@ -40,22 +42,42 @@ class StaticURLTests(TestCase):
 
     def setUp(self):
         self.guest_client = Client()
+        self.authorized_client = Client()
+        self.authorized_client.force_login(self.user)
 
-    def test_status_page(self):
-        """Проверка статус код страницы"""
+    def test_status_page_for_guest_client(self):
+        """Проверка статус код страницы для не авторизованного пользователя"""
         client_url_status = {
             INDEX_URL: HTTPStatus.OK,
             self.POST_DETAIL_URL: HTTPStatus.OK,
             self.PROFILE_URL: HTTPStatus.OK,
             self.GROUP_URL: HTTPStatus.OK,
+            CREATE_POST_URL: HTTPStatus.FOUND,
         }
         for client_url, status_code in client_url_status.items():
             with self.subTest(client_url=client_url):
                 response = self.guest_client.get(client_url)
                 self.assertEqual(response.status_code, status_code)
 
-    def test_urls_uses_correct_template(self):
-        """URL-адрес соотвествует шаблону страницы"""
+    def test_status_page_for_authorized_client(self):
+        """Проверка статус код страницы для авторизованного пользователя"""
+        client_url_status = {
+            INDEX_URL: HTTPStatus.OK,
+            self.POST_DETAIL_URL: HTTPStatus.OK,
+            self.PROFILE_URL: HTTPStatus.OK,
+            self.GROUP_URL: HTTPStatus.OK,
+            CREATE_POST_URL: HTTPStatus.OK,
+        }
+        for client_url, status_code in client_url_status.items():
+            with self.subTest(client_url=client_url):
+                response = self.authorized_client.get(client_url)
+                self.assertEqual(response.status_code, status_code)
+
+    def test_urls_uses_correct_template_for_guest_client(self):
+        """
+        URL-адрес соотвествует шаблону страницы для не авторизованного
+        пользователя.
+        """
         templates_url_names = {
             INDEX_URL: INDEX_TEMPLATE,
             self.POST_DETAIL_URL: POST_DETAIL_TEMPLATE,
@@ -65,4 +87,21 @@ class StaticURLTests(TestCase):
         for url, template in templates_url_names.items():
             with self.subTest(url=url):
                 response = self.guest_client.get(url)
+                self.assertTemplateUsed(response, template)
+
+    def test_urls_uses_correct_template_for_authorized_client(self):
+        """
+        URL-адрес соотвествует шаблону страницы для авторизованного
+        пользователя.
+        """
+        templates_url_names = {
+            INDEX_URL: INDEX_TEMPLATE,
+            self.POST_DETAIL_URL: POST_DETAIL_TEMPLATE,
+            self.PROFILE_URL: PROFILE_TEMPLATE,
+            self.GROUP_URL: GROUP_TEMPLATE,
+            CREATE_POST_URL: CREATE_POST_TEMPLATE,
+        }
+        for url, template in templates_url_names.items():
+            with self.subTest(url=url):
+                response = self.authorized_client.get(url)
                 self.assertTemplateUsed(response, template)
