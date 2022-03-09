@@ -73,26 +73,9 @@ class StaticURLTests(TestCase):
                 response = self.authorized_client.get(client_url)
                 self.assertEqual(response.status_code, status_code)
 
-    def test_urls_uses_correct_template_for_guest_client(self):
-        """
-        URL-адрес соотвествует шаблону страницы для не авторизованного
-        пользователя.
-        """
-        templates_url_names = {
-            INDEX_URL: INDEX_TEMPLATE,
-            self.POST_DETAIL_URL: POST_DETAIL_TEMPLATE,
-            self.PROFILE_URL: PROFILE_TEMPLATE,
-            self.GROUP_URL: GROUP_TEMPLATE,
-        }
-        for url, template in templates_url_names.items():
-            with self.subTest(url=url):
-                response = self.guest_client.get(url)
-                self.assertTemplateUsed(response, template)
-
     def test_urls_uses_correct_template_for_authorized_client(self):
         """
-        URL-адрес соотвествует шаблону страницы для авторизованного
-        пользователя.
+        URL-адрес соотвествует шаблону страницы для авторизованного клиента.
         """
         templates_url_names = {
             INDEX_URL: INDEX_TEMPLATE,
@@ -105,3 +88,13 @@ class StaticURLTests(TestCase):
             with self.subTest(url=url):
                 response = self.authorized_client.get(url)
                 self.assertTemplateUsed(response, template)
+
+    def test_urls_no_uses_template_for_guest_client(self):
+        """URL-адрес не использует шаблон для не авторизованного клиента"""
+        templates_url_names = {
+            CREATE_POST_URL: CREATE_POST_TEMPLATE,
+        }
+        for url, template in templates_url_names.items():
+            with self.subTest(url=url):
+                response = self.guest_client.get(url)
+                self.assertTemplateNotUsed(response, template)
