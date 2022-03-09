@@ -13,6 +13,7 @@ from posts.tests.data_for_test import (
     GROUP_TITLE,
     GROUP_SLUG,
     DESCRIPTION,
+    CREATE_POST_TEMPLATE,
 )
 
 INDEX_URL = reverse('posts:index')
@@ -20,6 +21,8 @@ INDEX_URL = reverse('posts:index')
 POST_DETAIL = 'posts:post_detail'
 PROFALE = 'posts:profile'
 GROUP_POSTS = 'posts:group_posts'
+CREATE_POST = 'posts:post_create'
+LOGIN_URL = '/auth/login/?next=/create/'
 
 
 class PostViewsTests(TestCase):
@@ -50,9 +53,14 @@ class PostViewsTests(TestCase):
             GROUP_POSTS,
             kwargs={'slug': cls.group.slug},
         )
+        cls.CREATE_POST_URL = reverse(
+            CREATE_POST,
+        )
 
     def setUp(self):
         self.guest_client = Client()
+        self.authorized_client = Client()
+        self.authorized_client.force_login(self.user)
 
     def test_pages_uses_correct_template(self):
         """URL-адрес соответствуюет шаблону страницы"""
@@ -61,11 +69,25 @@ class PostViewsTests(TestCase):
             self.POST_DETAIL_URL: POST_DETAIL_TEMPLATE,
             self.PROFILE_URL: PROFILE_TEMPLATE,
             self.GROUP_POSTS_URL: GROUP_TEMPLATE,
+            self.CREATE_POST_URL: CREATE_POST_TEMPLATE,
         }
         for url, template in templates_pages_names.items():
             with self.subTest(url=url):
-                response = self.guest_client.get(url)
+                response = self.authorized_client.get(url)
                 self.assertTemplateUsed(response, template)
+
+    def test_pages_uses_redirect_for_guest_client(self):
+        """
+        URL-адрес перенаправляется на шаблон страницы для не авторизованного
+        пользователя.
+        """
+        redirect_urls = {
+            self.CREATE_POST_URL: LOGIN_URL,
+        }
+        for url, template in redirect_urls.items():
+            with self.subTest(url=url):
+                response = self.guest_client.get(url)
+                self.assertRedirects(response, template)
 
     def test_post_view_on_page(self):
         """"Вывод поста на струницы"""
