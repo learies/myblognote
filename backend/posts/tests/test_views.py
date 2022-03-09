@@ -84,10 +84,10 @@ class PostViewsTests(TestCase):
         redirect_urls = {
             self.CREATE_POST_URL: LOGIN_URL,
         }
-        for url, template in redirect_urls.items():
+        for url, redirect in redirect_urls.items():
             with self.subTest(url=url):
                 response = self.guest_client.get(url)
-                self.assertRedirects(response, template)
+                self.assertRedirects(response, redirect)
 
     def test_post_view_on_page(self):
         """"Вывод поста на струницы"""
