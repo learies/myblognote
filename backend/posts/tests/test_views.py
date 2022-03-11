@@ -16,12 +16,12 @@ from posts.tests.data_for_test import (
     CREATE_POST_TEMPLATE,
 )
 
-INDEX_URL = reverse('posts:index')
-
+INDEX = 'posts:index'
 POST_DETAIL = 'posts:post_detail'
 PROFALE = 'posts:profile'
 GROUP_POSTS = 'posts:group_posts'
 CREATE_POST = 'posts:post_create'
+
 LOGIN_URL = '/auth/login/?next=/create/'
 
 
@@ -40,6 +40,9 @@ class PostViewsTests(TestCase):
             text=POST_TEXT,
             author=cls.user,
             group=cls.group,
+        )
+        cls.INDEX_URL = reverse(
+            INDEX,
         )
         cls.POST_DETAIL_URL = reverse(
             POST_DETAIL,
@@ -63,9 +66,9 @@ class PostViewsTests(TestCase):
         self.authorized_client.force_login(self.user)
 
     def test_pages_uses_correct_template(self):
-        """URL-адрес соответствуюет шаблону страницы"""
+        """URL-адрес соответствует шаблону страницы"""
         templates_pages_names = {
-            INDEX_URL: INDEX_TEMPLATE,
+            self.INDEX_URL: INDEX_TEMPLATE,
             self.POST_DETAIL_URL: POST_DETAIL_TEMPLATE,
             self.PROFILE_URL: PROFILE_TEMPLATE,
             self.GROUP_POSTS_URL: GROUP_TEMPLATE,
@@ -78,8 +81,7 @@ class PostViewsTests(TestCase):
 
     def test_pages_uses_redirect_for_guest_client(self):
         """
-        URL-адрес перенаправляется на шаблон страницы для не авторизованного
-        пользователя.
+        Проверка переадрисации URL-адресов для не авторизованного пользователя.
         """
         redirect_urls = {
             self.CREATE_POST_URL: LOGIN_URL,
@@ -90,9 +92,9 @@ class PostViewsTests(TestCase):
                 self.assertRedirects(response, redirect)
 
     def test_post_view_on_page(self):
-        """"Вывод поста на струницы"""
+        """"Отображение поста на страницах"""
         pages = (
-            INDEX_URL,
+            self.INDEX_URL,
             self.POST_DETAIL_URL,
             self.PROFILE_URL,
             self.GROUP_POSTS_URL,
