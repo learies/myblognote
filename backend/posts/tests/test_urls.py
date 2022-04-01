@@ -39,6 +39,7 @@ class StaticURLTests(TestCase):
         cls.POST_DETAIL_URL = f'/post/{cls.post.id}/'
         cls.PROFILE_URL = f'/profile/{cls.user}/'
         cls.GROUP_URL = f'/group/{cls.group.slug}/'
+        cls.POST_EDIT_URL = f'/post/{cls.post.id}/edit/'
 
     def setUp(self):
         self.guest_client = Client()
@@ -53,6 +54,7 @@ class StaticURLTests(TestCase):
             self.PROFILE_URL: HTTPStatus.OK,
             self.GROUP_URL: HTTPStatus.OK,
             CREATE_POST_URL: HTTPStatus.FOUND,
+            self.POST_EDIT_URL: HTTPStatus.FOUND,
         }
         for client_url, status_code in client_url_status.items():
             with self.subTest(client_url=client_url):
@@ -67,6 +69,7 @@ class StaticURLTests(TestCase):
             self.PROFILE_URL: HTTPStatus.OK,
             self.GROUP_URL: HTTPStatus.OK,
             CREATE_POST_URL: HTTPStatus.OK,
+            self.POST_EDIT_URL: HTTPStatus.OK,
         }
         for client_url, status_code in client_url_status.items():
             with self.subTest(client_url=client_url):
@@ -83,6 +86,7 @@ class StaticURLTests(TestCase):
             self.PROFILE_URL: PROFILE_TEMPLATE,
             self.GROUP_URL: GROUP_TEMPLATE,
             CREATE_POST_URL: CREATE_POST_TEMPLATE,
+            self.POST_EDIT_URL: CREATE_POST_TEMPLATE,
         }
         for url, template in templates_url_names.items():
             with self.subTest(url=url):
@@ -93,6 +97,7 @@ class StaticURLTests(TestCase):
         """URL-адрес не использует шаблон для не авторизованного клиента"""
         templates_url_names = {
             CREATE_POST_URL: CREATE_POST_TEMPLATE,
+            self.POST_EDIT_URL: CREATE_POST_TEMPLATE,
         }
         for url, template in templates_url_names.items():
             with self.subTest(url=url):
