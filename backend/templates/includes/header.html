@@ -9,7 +9,11 @@
 			</li>
 			<li>
 				<a href="{% url 'posts:profile' user %}">
-					{{ user.get_full_name }}
+					{% if user.get_full_name %}
+						{{ user.get_full_name }}
+					{% else %}
+						{{ user }}
+					{% endif %}
 				</a>
 			</li>
 			<li>

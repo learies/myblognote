@@ -10,9 +10,10 @@
 					{{ post.title }}
 				</h2>
 			</a>
-			<p>Автор:
+			<p>
+				Автор:
 				<a href="{% url 'posts:profile' post.author %}">
-					{{ post.author.get_full_name }}
+					{% include "includes/author.html" %}
 				</a>
 			</p>
 			<p>
