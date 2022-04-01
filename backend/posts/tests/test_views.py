@@ -21,6 +21,7 @@ POST_DETAIL = 'posts:post_detail'
 PROFALE = 'posts:profile'
 GROUP_POSTS = 'posts:group_posts'
 CREATE_POST = 'posts:post_create'
+EDIT_POST = 'posts:post_edit'
 
 LOGIN_URL = '/auth/login/?next=/create/'
 
@@ -59,6 +60,10 @@ class PostViewsTests(TestCase):
         cls.CREATE_POST_URL = reverse(
             CREATE_POST,
         )
+        cls.EDIT_POST_URL = reverse(
+            EDIT_POST,
+            kwargs={'post_id': cls.post.id},
+        )
 
     def setUp(self):
         self.guest_client = Client()
@@ -73,6 +78,7 @@ class PostViewsTests(TestCase):
             self.PROFILE_URL: PROFILE_TEMPLATE,
             self.GROUP_POSTS_URL: GROUP_TEMPLATE,
             self.CREATE_POST_URL: CREATE_POST_TEMPLATE,
+            self.EDIT_POST_URL: CREATE_POST_TEMPLATE,
         }
         for url, template in templates_pages_names.items():
             with self.subTest(url=url):
