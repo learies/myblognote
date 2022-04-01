@@ -6,6 +6,7 @@ from posts.views import (
     profile,
     group_posts,
     post_create,
+    post_edit,
 )
 
 app_name = 'posts'
@@ -16,4 +17,5 @@ urlpatterns = [
     path('profile/<str:username>/', profile, name='profile'),
     path('group/<slug:slug>/', group_posts, name='group_posts'),
     path('create/', post_create, name='post_create'),
+    path('post/<post_id>/edit/', post_edit, name='post_edit'),
 ]

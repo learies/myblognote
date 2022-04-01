@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %}Новый пост{% endblock %}
+{% block title %}
+	{% if is_edit %}
+  	Сохранить пост
+	{% else %}
+  	Добавить пост
+	{% endif %}
+{% endblock %}
 
 {% block content %}
 	<h1>Новый пост</h1>

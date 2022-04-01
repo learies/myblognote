@@ -24,6 +24,13 @@
 				{{ post.group }}
 			</a>
 		{% endif %}
+		{% if post.author == user %}
+			<p>
+				<a href="{% url 'posts:post_edit' post.pk %}">
+        	Редактировать
+      	</a>
+			</p>
+		{% endif %}
 	</article>
 	<br>
 {% endblock %}
