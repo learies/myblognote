@@ -1,9 +1,14 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
 
 from posts.models import Post
 
 
-class PostSerializer(ModelSerializer):
+class PostSerializer(serializers.ModelSerializer):
+    author = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field='username',
+    )
+    group = serializers.StringRelatedField()
 
     class Meta:
         model = Post
