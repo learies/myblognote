@@ -11,6 +11,6 @@ urlpatterns = [
     path('profile/<str:username>/', profile, name='profile'),
     path('group/<slug:slug>/', group_posts, name='group_posts'),
     path('create/', post_create, name='post_create'),
-    path('post/<post_id>/edit/', post_edit, name='post_edit'),
+    path('post/<int:post_id>/edit/', post_edit, name='post_edit'),
     path('posts/<int:post_id>/comment/', add_comment, name='add_comment'),
 ]
