@@ -1,11 +1,17 @@
-from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, redirect, render
 
-from posts.models import Post, User, Group
-from posts.forms import PostForm
+from .forms import PostForm
+from .models import Group, Post, User
 
 
-def index(request):
+def _get_post_detail(post_id: int) -> Post:
+    """Возвращает пост по id или 404 если нет такого поста."""
+    return get_object_or_404(Post, pk=post_id)
+
+
+def index(request) -> render:
+    """Выводит шаблон страницы со списком всех постов."""
     posts = Post.objects.all()
     context = {
         'posts': posts,
@@ -13,15 +19,17 @@ def index(request):
     return render(request, 'posts/index.html', context)
 
 
-def post_detail(request, post_id):
-    post = get_object_or_404(Post, pk=post_id)
+def post_detail(request, post_id) -> render:
+    """Выводит шаблон страницы с одним постом."""
+    post = _get_post_detail(post_id)
     context = {
         'post': post,
     }
     return render(request, 'posts/post_detail.html', context)
 
 
-def profile(request, username):
+def profile(request, username) -> render:
+    """Выводит шаблон страницы со списоком постов автора."""
     author = get_object_or_404(User, username=username)
     posts = Post.objects.filter(author=author)
     context = {
@@ -31,19 +39,20 @@ def profile(request, username):
     return render(request, 'posts/profile.html', context)
 
 
-def group_posts(request, slug):
+def group_posts(request, slug) -> render:
+    """Выводит шаблон страницы со списоком постов группы."""
     group = get_object_or_404(Group, slug=slug)
     posts = group.groups.all()
     context = {
-        'posts': posts,
         'group': group,
+        'posts': posts,
     }
     return render(request, 'posts/group_posts.html', context)
 
 
 @login_required
-def post_create(request):
-    form = form = PostForm(request.POST or None)
+def post_create(request) -> render or redirect:
+    form = PostForm(request.POST or None)
     if request.method == 'POST':
         if form.is_valid():
             post = form.save(commit=False)
@@ -58,8 +67,8 @@ def post_create(request):
 
 
 @login_required
-def post_edit(request, post_id):
-    post = get_object_or_404(Post, id=post_id)
+def post_edit(request, post_id) -> render or redirect:
+    post = _get_post_detail(post_id)
     if request.user != post.author:
         return redirect('posts:post_detail', post_id=post.id)
     form = PostForm(instance=post)
