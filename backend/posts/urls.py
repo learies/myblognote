@@ -1,13 +1,7 @@
 from django.urls import path
 
-from posts.views import (
-    index,
-    post_detail,
-    profile,
-    group_posts,
-    post_create,
-    post_edit,
-)
+from .views import (add_comment, group_posts, index, post_create, post_detail,
+                    post_edit, profile)
 
 app_name = 'posts'
 
@@ -18,4 +12,5 @@ urlpatterns = [
     path('group/<slug:slug>/', group_posts, name='group_posts'),
     path('create/', post_create, name='post_create'),
     path('post/<post_id>/edit/', post_edit, name='post_edit'),
+    path('posts/<int:post_id>/comment/', add_comment, name='add_comment'),
 ]
