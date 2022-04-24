@@ -33,4 +33,28 @@
 		{% endif %}
 	</article>
 	<br>
+	<h3>Комментарии ({{ post.comments.count }})</h3>
+  {% with comments=post.comments.all %}
+    {% for comment in comments %}
+      <a href="{% url 'posts:profile' comment.author.username %}">
+				{% if comment.author.get_full_name %}
+					{{ comment.author.get_full_name }}
+				{% else %}
+					{{ comment.author}}
+				{% endif %}
+      </a>
+      </h5>
+        <p>
+        	{{ comment.text }}
+        </p>
+    {% endfor %}
+  {% endwith %}
+	<br>
+	{% if user.is_authenticated %}
+		<form method="post" action="{% url 'posts:add_comment' post.pk %}">
+			{% csrf_token %}      
+      	{{ form.text }}
+    	<button>Отправить</button>
+		</form>
+	{% endif %}
 {% endblock %}

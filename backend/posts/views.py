@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import PostForm
+from .forms import CommentForm, PostForm
 from .models import Group, Post, User
 
 
@@ -22,8 +22,10 @@ def index(request) -> render:
 def post_detail(request, post_id) -> render:
     """Выводит шаблон страницы с одним постом."""
     post = _get_post_detail(post_id)
+    form = CommentForm(request.POST or None)
     context = {
         'post': post,
+        'form': form,
     }
     return render(request, 'posts/post_detail.html', context)
 
@@ -86,3 +88,15 @@ def post_edit(request, post_id) -> render or redirect:
         'is_edit': True,
     }
     return render(request, 'posts/create_post.html', context)
+
+
+@login_required
+def add_comment(request, post_id):
+    post = _get_post_detail(post_id)
+    form = CommentForm(request.POST or None)
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.author = request.user
+        comment.post = post
+        comment.save()
+    return redirect('posts:post_detail', post_id=post_id)
