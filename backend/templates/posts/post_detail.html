@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load thumbnail %}
+
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block content %}
@@ -16,6 +18,9 @@
 		<p>
 			Дата: {{ post.pub_date|date:"d E Y" }}
 		</p>
+			{% thumbnail post.image "960x339" crop="center" upscale=True as img %}
+      	<img src="{{ img.url }}">
+      {% endthumbnail %}
 		<p>
 			{{ post.text }}
 		</p>

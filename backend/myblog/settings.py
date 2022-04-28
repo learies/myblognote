@@ -4,11 +4,13 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
+from django.core.management.utils import get_random_secret_key
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv()
 
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = os.getenv('SECRET_KEY') or get_random_secret_key()
 
 DEBUG = True
 
@@ -24,6 +26,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'djoser',
+    'sorl.thumbnail',
 
     'posts.apps.PostsConfig',
     'users.apps.UsersConfig',
