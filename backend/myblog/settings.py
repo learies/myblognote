@@ -24,6 +24,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'djoser',
+    'sorl.thumbnail',
 
     'posts.apps.PostsConfig',
     'users.apps.UsersConfig',
