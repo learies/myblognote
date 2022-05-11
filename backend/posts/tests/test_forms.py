@@ -1,10 +1,10 @@
 from django.test import Client, TestCase
 from django.urls import reverse
-
 from posts.forms import PostForm
 from posts.models import Comment, Group, Post, User
 from posts.tests.data_for_test import (AUTHOR, DESCRIPTION, GROUP_SLUG,
-                                       GROUP_TITLE, POST_TEXT, POST_TITLE)
+                                       GROUP_TITLE, PICTURE, POST_TEXT,
+                                       POST_TITLE)
 
 CREATE_POST = 'posts:post_create'
 PROFALE = 'posts:profile'
@@ -30,6 +30,7 @@ class PostCreateFormTests(TestCase):
             title=POST_TITLE,
             text=POST_TEXT,
             author=cls.user,
+            image=PICTURE,
         )
         cls.CREATE_POST_URL = reverse(
             CREATE_POST,
@@ -59,6 +60,7 @@ class PostCreateFormTests(TestCase):
             'title': POST_TITLE_TWO,
             'text': POST_TEXT_TWO,
             'slug': GROUP_SLUG,
+            'image': PICTURE,
         }
         response = self.authorized_client.post(
             self.CREATE_POST_URL,
