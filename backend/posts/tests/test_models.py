@@ -8,6 +8,7 @@ from posts.tests.data_for_test import (
     GROUP_TITLE,
     GROUP_SLUG,
     DESCRIPTION,
+    PICTURE,
 )
 
 
@@ -26,6 +27,7 @@ class PostModelTest(TestCase):
             text=POST_TEXT,
             author=cls.user,
             group=cls.group,
+            image=PICTURE,
         )
 
     def test_post_verbose_name(self):
@@ -36,6 +38,7 @@ class PostModelTest(TestCase):
             'pub_date': 'Дата публикации',
             'author': 'Автор',
             'group': 'Группа',
+            'image': 'Картинка',
         }
         for value, expected in field_verboses.items():
             with self.subTest(value=value):
