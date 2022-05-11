@@ -1,6 +1,3 @@
-import tempfile
-
-from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 AUTHOR = 'test_auth'
