@@ -14,7 +14,7 @@ SECRET_KEY = os.getenv('SECRET_KEY') or get_random_secret_key()
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -25,12 +25,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
-    'djoser',
     'sorl.thumbnail',
 
     'posts.apps.PostsConfig',
     'users.apps.UsersConfig',
-    'api.apps.ApiConfig',
 ]
 
 MIDDLEWARE = [
