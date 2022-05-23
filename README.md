@@ -29,7 +29,7 @@ $ source venv/bin/activate
 ```
 (venv)$ pip install -r requirements.txt
 ```
-Сделайте миграции:
+Сделать миграции:
 ```
 (venv)$ python manage.py migrate
 ```
