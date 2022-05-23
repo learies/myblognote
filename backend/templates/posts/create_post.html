@@ -2,9 +2,9 @@
 
 {% block title %}
 	{% if is_edit %}
-  	Сохранить пост
+		Сохранить пост
 	{% else %}
-  	Добавить пост
+		Добавить пост
 	{% endif %}
 {% endblock %}
 
@@ -16,14 +16,14 @@
 			action="{% url action_url %}"
 		{% endif %}
 		>
-			{% csrf_token %}
-			{{ form.as_p }}
-			<button>
-				{% if is_edit %}
-					Сохранить
-				{% else %}
-					Добавить
-				{% endif %}
-			</button>
-		</form>
+		{% csrf_token %}
+		{{ form.as_p }}
+		<button>
+			{% if is_edit %}
+				Сохранить
+			{% else %}
+				Добавить
+			{% endif %}
+		</button>
+	</form>
 {% endblock %}
