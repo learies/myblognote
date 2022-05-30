@@ -100,3 +100,38 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.text[:15]
+
+
+class Follow(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='follower',
+        verbose_name='Подписчик',
+        null=True,
+    )
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        unique=False,
+        related_name='following',
+        verbose_name='Подписка',
+        null=True,
+    )
+
+    class Meta:
+        verbose_name = 'Подписки'
+        verbose_name_plural = 'Подписки'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'author'],
+                name='unique_followers'
+            ),
+            models.CheckConstraint(
+                check=~models.Q(user=models.F('author')),
+                name='not_sub'
+            ),
+        ]
+
+    def __str__(self):
+        return f'User:{self.user} following to {self.author}'
