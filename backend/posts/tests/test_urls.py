@@ -10,6 +10,7 @@ from posts.tests.data_for_test import (AUTHOR, CREATE_POST_TEMPLATE,
 
 INDEX_URL = '/'
 CREATE_POST_URL = '/create/'
+UNEXISTING_URL = '/unexisting_page/'
 
 
 class StaticURLTests(TestCase):
@@ -46,6 +47,7 @@ class StaticURLTests(TestCase):
             self.GROUP_URL: HTTPStatus.OK,
             CREATE_POST_URL: HTTPStatus.FOUND,
             self.POST_EDIT_URL: HTTPStatus.FOUND,
+            UNEXISTING_URL: HTTPStatus.NOT_FOUND,
         }
         for client_url, status_code in client_url_status.items():
             with self.subTest(client_url=client_url):
@@ -61,6 +63,7 @@ class StaticURLTests(TestCase):
             self.GROUP_URL: HTTPStatus.OK,
             CREATE_POST_URL: HTTPStatus.OK,
             self.POST_EDIT_URL: HTTPStatus.OK,
+            UNEXISTING_URL: HTTPStatus.NOT_FOUND,
         }
         for client_url, status_code in client_url_status.items():
             with self.subTest(client_url=client_url):
