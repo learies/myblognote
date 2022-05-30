@@ -6,12 +6,12 @@ from .models import Group, Post, User
 
 
 def _get_post_detail(post_id: int) -> Post:
-    """Возвращает пост по id или 404 если нет такого поста."""
+    """Возвращает пост по id или 404."""
     return get_object_or_404(Post, pk=post_id)
 
 
 def index(request) -> render:
-    """Выводит шаблон страницы со списком всех постов."""
+    """Выводит список всех постов."""
     posts = Post.objects.all()
     context = {
         'posts': posts,
@@ -20,7 +20,7 @@ def index(request) -> render:
 
 
 def post_detail(request, post_id) -> render:
-    """Выводит шаблон страницы с одним постом."""
+    """Выводит пост по post_id."""
     post = _get_post_detail(post_id)
     form = CommentForm(request.POST or None)
     context = {
@@ -31,7 +31,7 @@ def post_detail(request, post_id) -> render:
 
 
 def profile(request, username) -> render:
-    """Выводит шаблон страницы со списоком постов автора."""
+    """Выводит список постов автора."""
     author = get_object_or_404(User, username=username)
     posts = Post.objects.filter(author=author)
     context = {
@@ -42,7 +42,7 @@ def profile(request, username) -> render:
 
 
 def group_posts(request, slug) -> render:
-    """Выводит шаблон страницы со списоком постов группы."""
+    """Выводит список постов группы."""
     group = get_object_or_404(Group, slug=slug)
     posts = group.groups.all()
     context = {
@@ -54,6 +54,7 @@ def group_posts(request, slug) -> render:
 
 @login_required
 def post_create(request) -> render or redirect:
+    """Создать пост."""
     form = PostForm(request.POST or None)
     if request.method == 'POST':
         if form.is_valid():
@@ -70,6 +71,7 @@ def post_create(request) -> render or redirect:
 
 @login_required
 def post_edit(request, post_id) -> render or redirect:
+    """Редактирование поста."""
     post = _get_post_detail(post_id)
     if request.user != post.author:
         return redirect('posts:post_detail', post_id=post.id)
@@ -92,6 +94,7 @@ def post_edit(request, post_id) -> render or redirect:
 
 @login_required
 def add_comment(request, post_id):
+    """Добавляет комментарии к посту."""
     post = _get_post_detail(post_id)
     form = CommentForm(request.POST or None)
     if form.is_valid():
