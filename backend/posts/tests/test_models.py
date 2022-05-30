@@ -1,15 +1,8 @@
 from django.test import TestCase
-
-from posts.models import User, Post, Group
-from posts.tests.data_for_test import (
-    AUTHOR,
-    POST_TITLE,
-    POST_TEXT,
-    GROUP_TITLE,
-    GROUP_SLUG,
-    DESCRIPTION,
-    PICTURE,
-)
+from posts.models import Group, Post, User
+from posts.tests.data_for_test import (AUTHOR, DESCRIPTION, GROUP_SLUG,
+                                       GROUP_TITLE, PICTURE, POST_TEXT,
+                                       POST_TITLE)
 
 
 class PostModelTest(TestCase):

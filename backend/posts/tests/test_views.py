@@ -1,20 +1,11 @@
-from django.test import TestCase, Client
+from django.test import Client, TestCase
 from django.urls import reverse
-
-from posts.models import User, Post, Group
-from posts.tests.data_for_test import (
-    AUTHOR,
-    POST_TITLE,
-    POST_TEXT,
-    INDEX_TEMPLATE,
-    POST_DETAIL_TEMPLATE,
-    PROFILE_TEMPLATE,
-    GROUP_TEMPLATE,
-    GROUP_TITLE,
-    GROUP_SLUG,
-    DESCRIPTION,
-    CREATE_POST_TEMPLATE,
-)
+from posts.models import Group, Post, User
+from posts.tests.data_for_test import (AUTHOR, CREATE_POST_TEMPLATE,
+                                       DESCRIPTION, GROUP_SLUG, GROUP_TEMPLATE,
+                                       GROUP_TITLE, INDEX_TEMPLATE,
+                                       POST_DETAIL_TEMPLATE, POST_TEXT,
+                                       POST_TITLE, PROFILE_TEMPLATE)
 
 INDEX = 'posts:index'
 POST_DETAIL = 'posts:post_detail'
