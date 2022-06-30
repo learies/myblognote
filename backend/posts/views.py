@@ -10,6 +10,11 @@ def _get_post_detail(post_id: int) -> Post:
     return get_object_or_404(Post, pk=post_id)
 
 
+def _get_author_by_username(username) -> User:
+    """Возвращает автора по username или 404."""
+    return get_object_or_404(User,  username=username)
+
+
 def index(request) -> render:
     """Выводит список всех постов."""
     posts = Post.objects.all()
@@ -32,7 +37,7 @@ def post_detail(request, post_id) -> render:
 
 def profile(request, username) -> render:
     """Выводит список постов автора."""
-    author = get_object_or_404(User, username=username)
+    author = _get_author_by_username(username)
     user = request.user
     posts = Post.objects.filter(author=author)
     if request.user.is_authenticated:
@@ -123,7 +128,7 @@ def follow_index(request):
 @login_required
 def profile_follow(request, username):
     """Функция подписки на выбранного автора"""
-    author = get_object_or_404(User, username=username)
+    author = _get_author_by_username(username)
     if (author != request.user and not Follow.objects.filter(
         user=request.user, author=author
     ).exists()):
