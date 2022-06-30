@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import CommentForm, PostForm
-from .models import Group, Post, User
+from .models import Follow, Group, Post, User
 
 
 def _get_post_detail(post_id: int) -> Post:
@@ -33,10 +33,16 @@ def post_detail(request, post_id) -> render:
 def profile(request, username) -> render:
     """Выводит список постов автора."""
     author = get_object_or_404(User, username=username)
+    user = request.user
     posts = Post.objects.filter(author=author)
+    if request.user.is_authenticated:
+        following = Follow.objects.filter(user=user, author=author).exists()
+    else:
+        following = False
     context = {
         'author': author,
         'posts': posts,
+        'following': following,
     }
     return render(request, 'posts/profile.html', context)
 
@@ -103,3 +109,37 @@ def add_comment(request, post_id):
         comment.post = post
         comment.save()
     return redirect('posts:post_detail', post_id=post_id)
+
+
+@login_required
+def follow_index(request):
+    posts = Post.objects.filter(author__following__user=request.user)
+    context = {
+        'posts': posts,
+    }
+    return render(request, 'posts/follow.html', context)
+
+
+@login_required
+def profile_follow(request, username):
+    """Функция подписки на выбранного автора"""
+    author = get_object_or_404(User, username=username)
+    if (author != request.user and not Follow.objects.filter(
+        user=request.user, author=author
+    ).exists()):
+        Follow.objects.create(
+            user=request.user,
+            author=author,
+        )
+    return redirect('posts:profile', username=username)
+
+
+@login_required
+def profile_unfollow(request, username):
+    """Функция удаления подписки на выбранного автора"""
+    get_object_or_404(
+        Follow,
+        user=request.user,
+        author__username=username,
+    ).delete()
+    return redirect('posts:profile', username=username)

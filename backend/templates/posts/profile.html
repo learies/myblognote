@@ -10,6 +10,23 @@
 		{% endif %}
 	</h1>
 	<p>Публикаций: {{ posts.count }}</p>
+	{% if author != user %}
+		<li>
+			{% if following %}
+				<a
+					href="{% url 'posts:profile_unfollow' author.username %}" role="button"
+		  		>
+					Отписаться
+		  		</a>
+			{% else %}
+		  		<a
+					href="{% url 'posts:profile_follow' author.username %}" role="button"
+		  		>
+					Подписаться
+		  		</a>
+			{% endif %}
+		</li>
+	{% endif %}
 	<br>
 	{% for post in posts %}
 		<article>
